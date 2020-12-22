@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
-import Categories from '../Categories/Categories';
+import Categories from '../../components/Categories';
+import SearchBar from '../../components/SearchBar';
+import SelectType from '../../components/SelectType';
 import { css } from "@emotion/core";
 import ClipLoader from "react-spinners/ClipLoader";
 
@@ -15,6 +17,8 @@ export default function Home() {
   const [categoryOption, setCategoryOption] = useState('O');
   const [categoryItems, setCategoryItems] = useState([]);
   const [isCategoryItemsLoading, setIsCategoryItemsLoading] = useState(false);
+  const [search, setSearch] = useState();
+  let [searchType, setSearchType] = useState('name');
 
   async function loadCategories() {
     setIsCategoryItemsLoading(true)
@@ -29,6 +33,13 @@ export default function Home() {
       })
   }
 
+  async function searchDrink(e) {
+    e.preventDefault();
+
+    console.log(search);
+    console.log(searchType);
+  }
+
   useEffect(() => {
     loadCategories();
   }, [categoryOption])
@@ -37,11 +48,26 @@ export default function Home() {
     <div>
       <h1>Hello World</h1>
 
-      <form>
-        <select value={categoryOption} onChange={e => setCategoryOption(e.target.value)}>
-          <option value="O">Ordinary Drink</option>
-          <option value="C">Cocktail</option>
-        </select>
+      <form onSubmit={searchDrink}>
+
+        <div>
+          <SearchBar
+          placeholder="Search for a drink"
+          onChange={e => setSearch(e.target.value)}
+          />
+          <SelectType 
+          value={searchType}
+          onChange={e => setSearchType(e.target.value)}      
+          />
+        </div>
+        
+        <div>
+          <select value={categoryOption} onChange={e => setCategoryOption(e.target.value)}>
+            <option value="O">Ordinary Drink</option>
+            <option value="C">Cocktail</option>
+          </select>
+        </div>
+        
       </form>
 
       { !isCategoryItemsLoading && <Categories items={categoryItems} /> }
