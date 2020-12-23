@@ -1,0 +1,8 @@
+.categories-items-wrapper {
+  display: flex;
+  border: 1px solid black;
+  margin-bottom: 0.5em;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import api from '../../services/api';
-import Categories from '../../components/Categories';
-import SearchBar from '../../components/SearchBar';
-import SelectType from '../../components/SelectType';
+import Items from '../../components/Items/Items';
+import SearchItems from '../../components/SearchItems/SearchItems';
+import SearchBar from '../../components/SearchBar/SearchBar';
+import SelectType from '../../components/SelectType/SelectType';
+import SelectCategory from '../../components/SelectCategory/SelectCategory';
 import { css } from "@emotion/core";
 import ClipLoader from "react-spinners/ClipLoader";
 
@@ -13,75 +16,93 @@ const override = css`
 `;
 
 
-export default function Home() {
-  const [categoryOption, setCategoryOption] = useState('O');
+function Home({ category, searchInput, searchType }) {
+  const categorySelect = category;
+  const searchInputValue = searchInput;
+  const searchTypeValue = searchType;
+  let [renderType, setRenderType] = useState('C');
   const [categoryItems, setCategoryItems] = useState([]);
+  const [searchItems, setSearchItems] = useState([]);
   const [isCategoryItemsLoading, setIsCategoryItemsLoading] = useState(false);
-  const [search, setSearch] = useState();
-  let [searchType, setSearchType] = useState('name');
+  const [isSearchItemsLoading, setIsSearchItemsLoading] = useState(false);
 
   async function loadCategories() {
     setIsCategoryItemsLoading(true)
 
-    await api.get('/category', {
+    await api.get('/categoryItems', {
       params: {
-        category: categoryOption
+        category: categorySelect
       }
     }).then(function(response) {
         setIsCategoryItemsLoading(false)
+        setRenderType('C');
         setCategoryItems(response.data.drinks)
-      })
+    })
   }
 
   async function searchDrink(e) {
     e.preventDefault();
 
-    console.log(search);
-    console.log(searchType);
-  }
+    const data = {
+      searchInputValue,
+      searchTypeValue
+    }
 
+    setIsSearchItemsLoading(true)
+
+    await api.post('/search', data)
+      .then(function(response) {
+        setIsSearchItemsLoading(false)
+        setRenderType('S')
+        setSearchItems(response.data)
+      })
+  }
+ 
   useEffect(() => {
     loadCategories();
-  }, [categoryOption])
+  }, [categorySelect])
 
   return(
     <div>
       <h1>Hello World</h1>
 
-      <form onSubmit={searchDrink}>
+      <form onSubmit={(e) => searchDrink(e)}>
 
         <div>
-          <SearchBar
-          placeholder="Search for a drink"
-          onChange={e => setSearch(e.target.value)}
-          />
-          <SelectType 
-          value={searchType}
-          onChange={e => setSearchType(e.target.value)}      
-          />
+        <SelectType />
+          <SearchBar />
+         
         </div>
-        
-        <div>
-          <select value={categoryOption} onChange={e => setCategoryOption(e.target.value)}>
-            <option value="O">Ordinary Drink</option>
-            <option value="C">Cocktail</option>
-          </select>
-        </div>
-        
       </form>
 
-      { !isCategoryItemsLoading && <Categories items={categoryItems} /> }
+      <form>
+        <div>
+          <SelectCategory />
+        </div>
+      </form>
+
+      <div>
+        {
+          renderType === 'C'
+        ? <Items items={categoryItems} />
+        : <SearchItems items={searchItems} />
+        }
+      </div>
 
       <div className="sweet-loading">
         <ClipLoader
         css={override}
         size={150}
         color={"#123abc"}
-        loading={isCategoryItemsLoading}
+        loading={isCategoryItemsLoading, isSearchItemsLoading}
         />
       </div>
     </div>
-
-
   )
 }
+
+export default connect(state => ({
+  category: state.category,
+  searchInput: state.searchInput,
+  searchType: state.searchType
+}))(Home);
