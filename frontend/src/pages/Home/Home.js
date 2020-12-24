@@ -33,45 +33,41 @@ function Home({ category, searchInput, searchType }) {
       params: {
         category: categorySelect
       }
-    }).then(function(response) {
-        setIsCategoryItemsLoading(false)
-        setRenderType('C');
-        setCategoryItems(response.data.drinks)
+    }).then(function (response) {
+      setIsCategoryItemsLoading(false)
+      setRenderType('C');
+      setCategoryItems(response.data.drinks)
     })
   }
 
   async function searchDrink(e) {
+    setIsSearchItemsLoading(true)
     e.preventDefault();
 
     const data = {
       searchInputValue,
       searchTypeValue
     }
-
-    setIsSearchItemsLoading(true)
-
     await api.post('/search', data)
-      .then(function(response) {
+      .then(function (response) {
         setIsSearchItemsLoading(false)
         setRenderType('S')
         setSearchItems(response.data)
       })
   }
- 
+
   useEffect(() => {
     loadCategories();
   }, [categorySelect])
 
-  return(
+  return (
     <div>
       <h1>Hello World</h1>
 
       <form onSubmit={(e) => searchDrink(e)}>
-
         <div>
-        <SelectType />
+          <SelectType />
           <SearchBar />
-         
         </div>
       </form>
 
@@ -84,17 +80,24 @@ function Home({ category, searchInput, searchType }) {
       <div>
         {
           renderType === 'C'
-        ? <Items items={categoryItems} />
-        : <SearchItems items={searchItems} />
+            ? !isCategoryItemsLoading && <Items items={categoryItems} />
+            : !isSearchItemsLoading && <SearchItems items={searchItems} />
         }
       </div>
 
       <div className="sweet-loading">
         <ClipLoader
-        css={override}
-        size={150}
-        color={"#123abc"}
-        loading={isCategoryItemsLoading, isSearchItemsLoading}
+          css={override}
+          size={150}
+          color={"#123abc"}
+          loading={isCategoryItemsLoading}
+        />
+
+        <ClipLoader
+          css={override}
+          size={150}
+          color={"#123abc"}
+          loading={isSearchItemsLoading}
         />
       </div>
     </div>

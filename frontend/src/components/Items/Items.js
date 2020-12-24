@@ -1,15 +1,21 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { connect, useDispatch } from 'react-redux';
 import './item.css';
 
 function Items(props, drink) {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   async function handleDrink(drink) {
     dispatch({
-      type: 'ADD_DRINK',
+      type: 'CHOSE_DRINK',
       drink
-    })
+    });
+
+    setTimeout(() => {
+      history.push('/drink')
+    }, 500);
   }
 
   return (
@@ -18,13 +24,13 @@ function Items(props, drink) {
         <div className="categories-items-wrapper" key={drink.idDrink} onClick={() => handleDrink(drink)}>
 
           <div>
-            <img src={drink.strDrinkThumb + '/preview'} alt={drink.strDrink}/>
+            <img src={drink.strDrinkThumb + '/preview'} alt={drink.strDrink} />
           </div>
-          
+
           <div>
-            <p>{ drink.strDrink || "Drink undefined" }</p>
+            <p>{drink.strDrink || "Drink undefined"}</p>
           </div>
-          
+
         </div>
       ))}
     </div>
