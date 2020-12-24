@@ -1,6 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect, useDispatch } from 'react-redux';
+import '../Items/item.css'
 
 function SearchItems(props) {
   const dispatch = useDispatch();
@@ -18,9 +19,9 @@ function SearchItems(props) {
   }
 
   return (
-    <div className='search-wrapper'>
+    <div className='items-wrapper'>
       {props.items && props.items.map(drink => (
-        <div className="search-items-wrapper" key={drink.id} onClick={() => handleDrink(drink)}>
+        <div className="items" key={drink.id} onClick={() => handleDrink(drink)}>
 
           <div>
             <img src={drink.image + '/preview'} alt={drink.name} />

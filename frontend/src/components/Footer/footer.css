@@ -1,0 +1,13 @@
+.footer-container {
+  width: 100%;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: rgba(0,0,0, .9);
+}
+
+.footer-container b {
+  color: #DC143C;
+}

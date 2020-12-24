@@ -1,8 +1,31 @@
-.categories-items-wrapper {
+@media screen and (max-width: 1200px) {
+  .items {
+    width: 100% !important;
+  }
+}
+
+.items-wrapper {
+  width: 100%;
   display: flex;
-  border: 1px solid black;
-  margin-bottom: 0.5em;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: rgb(248,248,255);
+}
+
+.items {
+  background-color: #fff;
+  width: 50%;
+  height: 370px;
+  margin-bottom: 0.5em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.items:hover {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }

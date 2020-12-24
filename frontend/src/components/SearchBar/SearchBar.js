@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect, useDispatch } from 'react-redux';
+import './search-bar.css';
 
 function SearchBar({ searchType }, props) {
   const searchTypeValue = searchType;
@@ -15,19 +16,27 @@ function SearchBar({ searchType }, props) {
 
   return (
     <div className='search-wrapper'>
-        <input 
-        type="text"
-        onChange={(e) => searchInput(e.target.value)}
-        placeholder={props.placeholder}
-        required={searchTypeValue === 'random' ? false : true}
-        />
 
-        <button 
-        type='submit'
-        onSubmit={props.onSubmit}
-        >
-        Search
-        </button>
+        <div className="wrap-content">
+          <b>Type your search:</b>
+
+          <input 
+          type="text"
+          onChange={(e) => searchInput(e.target.value)}
+          placeholder='Type a Drink'
+          required={searchTypeValue === 'random' ? false : true}
+          />
+        </div>
+        
+        <div className="wrap-button">
+          <button 
+          type='submit'
+          onSubmit={props.onSubmit}
+          >
+          Search
+          </button>
+        </div>
+        
         
     </div>
   )

@@ -1,0 +1,19 @@
+.search-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.search-wrapper b {
+  font-size: 15px;
+  padding-left: 5px;
+}
+
+.wrap-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.wrap-button {
+  display: flex;
+  align-items: flex-end;
+}

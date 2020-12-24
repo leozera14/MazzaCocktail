@@ -25,14 +25,18 @@ function SelectCategory() {
   }, []);
 
   return(
-    <select onChange={(e) => categorySelect(e.target.value)}>
-      {categories.length >= 0
-      ? categories.map(categorie => (
-        <option key={categorie.strCategory} value={categorie.strCategory.replace( /\s/g, '' )}>{categorie.strCategory}</option>
-      ))
-      : <option value='error'>Error</option>
-      }
-    </select>
+    <>
+      <b>Or select a category of Drinks:</b>
+
+      <select onChange={(e) => categorySelect(e.target.value)}>
+        {categories.length >= 0
+        ? categories.map(categorie => (
+          <option key={categorie.strCategory} value={categorie.strCategory.replace( /\s/g, '' )}>{categorie.strCategory}</option>
+        ))
+        : <option value='error'>Error</option>
+        }
+      </select>
+    </>
   )
 }
 

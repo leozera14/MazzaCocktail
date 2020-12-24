@@ -19,18 +19,11 @@ function Items(props, drink) {
   }
 
   return (
-    <div className='categories-wrapper'>
+    <div className='items-wrapper'>
       {props.items && props.items.map(drink => (
-        <div className="categories-items-wrapper" key={drink.idDrink} onClick={() => handleDrink(drink)}>
-
-          <div>
-            <img src={drink.strDrinkThumb + '/preview'} alt={drink.strDrink} />
-          </div>
-
-          <div>
-            <p>{drink.strDrink || "Drink undefined"}</p>
-          </div>
-
+        <div className="items" key={drink.idDrink} onClick={() => handleDrink(drink)}>
+          <img src={drink.strDrinkThumb + '/preview'} alt={drink.strDrink} />
+          <p>{drink.strDrink || "Drink undefined"}</p>
         </div>
       ))}
     </div>

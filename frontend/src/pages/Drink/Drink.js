@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import api from '../../services/api';
 import { connect } from 'react-redux';
+
 import DrinkItem from '../../components/DrinkItem/DrinkItem'
+import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
+
 import { css } from "@emotion/core";
 import ClipLoader from "react-spinners/ClipLoader";
+import './drink.css';
 
 const override = css`
   display: block;
@@ -36,25 +41,37 @@ function Drink({ drink }) {
   }, [])
 
   return (
-    <div>
-      <h1>Hello Drink</h1>
+    <>
+      <div className="content-drink"> 
+        <Header />
 
-      <div>
-        {drinkInfo.length > 0
-          ? <DrinkItem items={drinkInfo} />
-          : <div><p>No Drink to show !</p></div>
-        }
-      </div>
+        <div className="sweet-loading">
+          <ClipLoader
+            css={override}
+            size={150}
+            color={"#123abc"}
+            loading={isDrinkInfoLoading}
+          />
+        </div>
 
-      <div className="sweet-loading">
-        <ClipLoader
-          css={override}
-          size={150}
-          color={"#123abc"}
-          loading={isDrinkInfoLoading}
-        />
+        <div className="wrap-drink">
+          <div className="wrap-title">
+            <h1>
+              {drinkInfo.length > 0
+              ? <h1>{drinkInfo[0].name}</h1>
+              : <h1>Loading Item Name</h1>
+              }
+            </h1>
+          </div>
+
+          {drinkInfo.length > 0
+            ? <DrinkItem items={drinkInfo} />
+            : <div><p>No Drink to show !</p></div>
+          }
+        </div>
       </div>
-    </div>
+      <Footer />
+    </>
   )
 }
 
