@@ -325,7 +325,6 @@ module.exports = {
                 ingredient10: [item.strMeasure10, item.strIngredient10],
                 ingredient11: [item.strMeasure11, item.strIngredient11],
                 ingredient12: [item.strMeasure12, item.strIngredient12],
-
               },
             }
           })

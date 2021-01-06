@@ -6,7 +6,7 @@ function Footer() {
   return (
     <div className="footer-container">
       <b>&copy; Copyright</b> <br/>
-      <b>All rights reserverd MazzaCocktail - 2020</b>
+      <b>All rights reserved MazzaCocktail - 2020</b>
     </div>
   )
 }

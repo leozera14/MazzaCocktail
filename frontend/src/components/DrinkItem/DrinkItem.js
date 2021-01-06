@@ -3,6 +3,19 @@ import { connect } from 'react-redux'
 import './drink-item.css';
 
 function DrinkItem(props) {
+  
+    const ingredientsArray = Object.values(props.items[0].ingredientsAndMeasures);
+
+    const divComponents = [];
+
+    const lenDivision = 3;
+
+    ingredientsArray.forEach((v, i) => {
+      if(i % lenDivision === 0){
+        divComponents.push([]); // Adiciona um array vazio ao array principal
+      }
+      divComponents[Math.floor(i/lenDivision)] = [...divComponents[Math.floor(i/lenDivision)], v];
+    })
 
   return (
     <div className='drink-wrapper'>
@@ -12,7 +25,7 @@ function DrinkItem(props) {
           <div className="separate-content">
 
             <div className="drink-image">
-              <a href={drink.image} target="_blank"><img src={drink.image} alt={drink.name}/></a>
+              <a href={drink.image} target="_blank" rel="noreferrer"><img src={drink.image} alt={drink.name}/></a>
               <b>{drink.name || "Drink undefined"}</b>
             </div>
 
@@ -25,7 +38,7 @@ function DrinkItem(props) {
 
               <div className="drink-instruction">
                 <h2>Instructions</h2>
-                <textarea>{drink.instructions}</textarea>
+                <textarea value={drink.instructions} readOnly={true}></textarea>
               </div>
             </div>
 
@@ -34,16 +47,28 @@ function DrinkItem(props) {
           <div className="wrap-title-ingredients">
             <h2>Ingredients</h2>
           </div>
-          {Object.values(drink.ingredientsAndMeasures).map(ing => (
-            ing[0] || ing[1] !== null
-              ? 
-              <div className="drink-ingredients">
-                  <img src={'https://www.thecocktaildb.com/images/ingredients/' + `${ing[1]}` + '-Small.png'} alt={ing} />
-                  <p>{ing}</p>
-                  <div className="separator"></div>
+
+          {
+            divComponents.map(v => (
+              <div className="wrap-ingredients">
+                <div className="container-ingredients">
+                  {v.map(w => (
+                    w[0] || w[1] !== null
+                    ?  
+                      <div className="ingredients-items">
+                        <img src={`https://www.thecocktaildb.com/images/ingredients/${w[1]}-Small.png`} alt={w[1]}/>
+                        <p>
+                          {w[0]} - {w[1]}
+                        </p>
+                      </div>
+                    : 
+                      <div className="display-none"></div>
+                  ))}
+                </div>
               </div>
-              : <span></span>
-          ))}
+            ))
+          }
+
         </div>
       ))}
     </div>

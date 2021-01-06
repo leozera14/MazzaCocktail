@@ -34,8 +34,6 @@ function Drink({ drink }) {
     })
   }
 
-  console.log(drinkInfo)
-
   useEffect(() => {
     getDrinkInfo();
   }, [])
@@ -56,12 +54,12 @@ function Drink({ drink }) {
 
         <div className="wrap-drink">
           <div className="wrap-title">
-            <h1>
+            <div>
               {drinkInfo.length > 0
               ? <h1>{drinkInfo[0].name}</h1>
               : <h1>Loading Item Name</h1>
               }
-            </h1>
+            </div>
           </div>
 
           {drinkInfo.length > 0
